@@ -1,0 +1,72 @@
+<template name="marcarConsulta">
+    
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header ">
+              Marcar Consulta
+            </div>
+            <div class="card-body">
+             <form>
+                 <div class="row">
+
+                     <div class="col-sm-12 col-md-4">
+                         <label>Data/Hora</label>
+                        <input class="form-control" type="datetime-local">
+                     </div>
+                     <div class="col-sm-12 col-md-4">
+                        <label>Especialidade</label>
+                       <select class="form-control"></select>
+                    </div>
+                    <div class="col-sm-12 col-md-12 pt-4">
+                        <button class="btn btn-primary">Pesquisar</button>
+                    </div>
+                 </div>
+                 <div class="row">
+                 </div>
+             </form>
+            </div>
+            <div class="col-12 py-2">
+                <div class="card">
+                    <div class="card-header ">
+                      Tabela
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Dentista</th>
+                                <th scope="col">Especialidade</th>
+                                <th scope="col"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Canal</td>
+                                <td><a class="btn btn-primary text-white">Agendar</a></td>
+                              </tr>
+                              <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Limpeza</td>
+                                <td><a class="btn btn-primary text-white">Agendar</a></td>
+
+                              </tr>
+                              <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>Restauração</td>
+                                <td><a class="btn btn-primary text-white">Agendar</a></td>
+
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                  </div>
+            </div>
+          </div>
+
+    </div>
+</template>
