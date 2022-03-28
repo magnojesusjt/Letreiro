@@ -1,0 +1,1 @@
+export const Permissoes = new Mongo.Collection('permissoes');

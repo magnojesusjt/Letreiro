@@ -1,47 +1,88 @@
 <template name="login">
-    <div class="img-logo">
-        <div class="container pt-5">
-            <div class="d-flex justify-content-center h-100">
-                <div class="card card-login">
-                    <div class="card-header">
-                        <h3>Login</h3>
-                        <div class="d-flex justify-content-end social_icon">
-                            <span><i class="fab fa-facebook-square"></i></span>
-                            <span><i class="fab fa-google-plus-square"></i></span>
-                            <span><i class="fab fa-twitter-square"></i></span>
-                        </div>
+    <section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-12 col-lg-10">
+					<div class="wrap d-md-flex">
+						<div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
+							<div class="text w-100">
+								<h2>Seja bem vindo!</h2>
+								<p>Ainda não tem uma conta?</p>
+								<button class="btn btn-outline-info"  data-bs-toggle="modal" data-bs-target="#exampleModal" >Criar conta</button>
+							</div>
+			      </div>
+						<div class="login-wrap p-4 p-lg-5">
+			      	<div class="d-flex">
+			      		<div class="w-100">
+			      			<h3 class="mb-4">Login</h3>
+			      		</div>
+			      	</div>
+							<form action="#" class="signin-form">
+			      		<div class="form-group mb-3">
+			      			<label class="label" for="name">E-mail</label>
+			      			<input type="text"  id="emailLogin" class="form-control" placeholder="e-mail" required>
+			      		</div>
+		            <div class="form-group mb-3">
+		            	<label class="label" for="password">Senha</label>
+		              <input type="password" id="senhaLogin" class="form-control" placeholder="Senha" required>
+		            </div>
+		            <div class="form-group">
+		            	<button type="button" id="entrar" class="form-control btn btn-primary px-3 col-sm-5 ">Entrar</button>
+		            	<button type="button" class="form-control btn btn-primary col-sm-6">Entrar com o Facebook</button>
+		            </div>
+		            <div class="form-group d-md-flex">
+						<div class="w-100 text-md-right">
+							<a href="#">Esqueceu senha?</a>
+						</div>
+		            </div>
+		          </form>
+		        </div>
+		      </div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+    <div class="modal fade"   id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Criar Conta</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            
+              </button>
+            </div>
+            <form>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 mt-2">
+                        <label for="">Nome completo: *</label>
+                        <input type="text" id="nomeCompleto" required class="form-control">
                     </div>
-                    <div class="card-body">
-                        <form>
-                            <div class="input-group form-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Email">
-                                
-                            </div>
-                            <div class="input-group form-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                </div>
-                                <input type="password" class="form-control" placeholder="Senha">
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Entrar" class="btn float-right login_btn">
-                            </div>
-                        </form>
+                    <div class="col-sm-12  mt-2">
+                        <label for="">E-mail: *</label>
+                        <input type="email" id="email" required class="form-control">
                     </div>
-                    <div class="card-footer">
-                        <div class="d-flex justify-content-center links">
-                            Não tem conta?<a href="#">Criar conta</a>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <a href="#">Esqueceu senha?</a>
-                        </div>
+                    <div class="col-sm-12  mt-2">
+                        <label for="">Telefone: *</label>
+                        <input type="text" id="telefone" required class="form-control">
+                    </div>
+                    <div class="col-sm-12  mt-2">
+                        <label for="">Senha: *</label>
+                        <input type="password" id="senha" required class="form-control">
+                    </div>
+                    <div class="col-sm-12  mt-2">
+                        <label for="">Confirmar senha: *</label>
+                        <input type="password" id="confirmaSenha" required class="form-control">
                     </div>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary criarUsuario">Criar conta</button>
+            </div>
+        </form>
+          </div>
         </div>
-
     </div>
 </template>

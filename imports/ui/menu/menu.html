@@ -2,22 +2,46 @@
   <div class="wrapper-menu">
     <!-- Sidebar Holder -->
     <nav id="sidebar">
-        <div class="sidebar-header">
-            <a href=""><h4>DENTAL SORRISO</h4></a>
-        </div>
+        
 
         <ul class="list-unstyled components">
             
-            <li class="active">
+            <li >
                 <a href="/marcarconsulta">Marcar Consulta</a>
                 
             </li>
             <li>
-                <a href="/teste">Consultas Agendadas</a>
+                <a href="/consultasagendadas">Consultas Agendadas</a>
+               
+            </li> 
+            <li>
+                <a href="/consultasagendadas">Gerenciar consultas agendadas</a>
+               
+            </li> 
+            <li>
+                <a href="/agenda">Dispobinilizar horario</a>
                
             </li>
             <li>
-                <a href="#">Perfil</a>
+                <a href="/adicionarUsuario">Adicionar Usuário</a>
+            </li>
+            <li>
+                <a href="/gerenciamentodeusuarios">Gerenciar Usuários</a>
+            </li>
+            <li>
+                <a href="#">Letreiro</a>
+            </li>
+            <li>
+                <a href="#">Dasboard</a>
+            </li>
+            <li>
+                <a href="/perfil">Perfil</a>
+            </li>
+            <li>
+                <a href="/perfil">Abrir Chamado</a>
+            </li>
+            <li>
+                <a href="/perfil">Gerenciar Chamados</a>
             </li>
            
         </ul>
@@ -25,7 +49,7 @@
         <ul class="list-unstyled CTAs">
         
             <li>
-                <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Sair</a>
+                <a href="/logout" class="article">Sair</a>
             </li>
         </ul>
     </nav>
@@ -46,11 +70,13 @@
               
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Magno Jesus</a>
+                            <a class="nav-link" href="#">{{user}}</a>
                         </li>
-                      
                         <li class="nav-item">
-                            <a class="nav-link" href="#">09-08-21 00:00</a>
+                            <a class="nav-link"  href="#">{{data}}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="rel" href="#"></a>
                         </li>
                     </ul>
         
