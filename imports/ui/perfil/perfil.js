@@ -1,5 +1,6 @@
 import './perfil.html'
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
+import swal from 'sweetalert';
 
 Template.perfil.onCreated(function (){
 
@@ -14,7 +15,15 @@ Template.perfil.helpers({
 Template.perfil.events({
     'click #atualizar'(event){
         event.preventDefault();
-        nome = document.getElementById('nomeCompleto').value
+        swal({
+            title: "Certeza que quer atualizar seus dados?",
+            icon: 'warning',
+            buttons: ["Não","Sim"],
+            dangerMode: true
+
+        }).then((sim)=>{
+            if(sim){
+                nome = document.getElementById('nomeCompleto').value
         cpf = document.getElementById('cpf').value
         telefone = document.getElementById('telefone').value
         
@@ -45,12 +54,23 @@ Template.perfil.events({
                 }
             })
         }
+            }else{
+
+            }
+        })
         
     },
     'click #trocarSenha'(event){
         event.preventDefault();
 
-        username = Meteor.user().username
+        swal({
+            title: "Atualizar senha?",
+            icon: 'warning',
+            buttons: ["Não","Sim"],
+            dangerMode: true,
+        }).then((sim)=>{
+            if(sim){
+                username = Meteor.user().username
         let properties = {
             passwordAtual: document.getElementById('senhaAtual').value,
             password: document.getElementById('novaSenha').value,
@@ -98,5 +118,10 @@ Template.perfil.events({
             });
             }    
         })
+            }else{
+
+            }
+        })
+        
     }
 })

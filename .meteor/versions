@@ -4,6 +4,7 @@ accounts-oauth@1.2.0
 accounts-password@1.7.1
 accounts-ui@1.3.2
 accounts-ui-unstyled@1.4.3
+aldeed:tabular@1.3.0
 allow-deny@1.1.0
 autoupdate@1.7.0
 babel-compiler@7.6.2

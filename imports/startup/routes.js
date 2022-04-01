@@ -63,6 +63,30 @@ FlowRouter.route('/', {
     
   });
 
+  FlowRouter.route('/gerenciarchamados', {
+    triggersEnter: [checkUsuarioLoggedIn],
+    action() {
+        BlazeLayout.render("menu",{content:"gerenciarChamado"});
+      },
+    
+  });
+
+  FlowRouter.route('/abrirchamado', {
+    triggersEnter: [checkUsuarioLoggedIn],
+    action() {
+        BlazeLayout.render("menu",{content:"abrirChamado"});
+      },
+    
+  });
+
+  FlowRouter.route('/dashboards', {
+    triggersEnter: [checkUsuarioLoggedIn],
+    action() {
+        BlazeLayout.render("menu",{content:"dashBoards"});
+      },
+    
+  });
+
   FlowRouter.route("/logout", {
     name: "logout",
     action() {

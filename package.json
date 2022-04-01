@@ -11,9 +11,11 @@
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "bcrypt": "^5.0.1",
+    "chart.js": "^3.7.1",
     "core-js": "^3.16.0",
-    "datatables.net-bs": "^1.11.3",
+    "datatables.net-bs": "^1.11.5",
     "generate-password": "^1.6.1",
+    "jquery": "^1.12.1",
     "meteor-node-stubs": "^1.0.1",
     "moment": "^2.29.1",
     "sweetalert": "^2.1.2"

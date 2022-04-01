@@ -1,0 +1,40 @@
+<template name="abrirChamado">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                Abrir chamado
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4">
+                            <label>Usuário:</label>
+                            <input id="usuario" value="{{user.profile.data.name}}" class="form-control" disabled="disabled"/>
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            <label>E-mail:</label>
+                            <input id="email" value="{{user.username}}" class="form-control" disabled="disabled"/>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-sm-12 col-md-4">
+                            <label>Assunto:</label>
+                            <input id="assunto" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8" rows="6" cols="33">
+                            <label>Mensagem:</label>
+                            <textarea id="mensagem" class="form-control" rows="6"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div>
+                            <button type="button" id="enviarChamado" class="btn btn-primary">Enviar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>

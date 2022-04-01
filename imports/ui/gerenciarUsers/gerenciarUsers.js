@@ -79,7 +79,7 @@ Template.gerenciarUsers.events({
                                 text: "Sua conta foi criada com sucesso!",
                                 icon: "success",
                               });
-                        }else{
+                            }else{
                             swal({
                                 title: "Erro!",
                                 text: `${error}`,
