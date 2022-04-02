@@ -9,7 +9,6 @@ Meteor.methods({
     'updateUsuario'(user){
         if (user.profile.data) {
             var _id = user._id
-            delete user._id 
             Meteor.users.update({ _id: _id }, { $set: {"profile.data" : user.profile.data}});
         }
     },

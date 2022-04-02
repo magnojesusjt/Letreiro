@@ -2,7 +2,44 @@ import "./login.html";
 import "./login.css";
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
+import swal from "sweetalert";
 
+const validarCPF =(cpf) => {	
+	cpf = cpf.replace(/[^\d]+/g,'');	
+	if(cpf == '') return false;	
+	// Elimina CPFs invalidos conhecidos	
+	if (cpf.length != 11 || 
+		cpf == "00000000000" || 
+		cpf == "11111111111" || 
+		cpf == "22222222222" || 
+		cpf == "33333333333" || 
+		cpf == "44444444444" || 
+		cpf == "55555555555" || 
+		cpf == "66666666666" || 
+		cpf == "77777777777" || 
+		cpf == "88888888888" || 
+		cpf == "99999999999")
+			return false;		
+	// Valida 1o digito	
+	add = 0;	
+	for (i=0; i < 9; i ++)		
+		add += parseInt(cpf.charAt(i)) * (10 - i);	
+		rev = 11 - (add % 11);	
+		if (rev == 10 || rev == 11)		
+			rev = 0;	
+		if (rev != parseInt(cpf.charAt(9)))		
+			return false;		
+	// Valida 2o digito	
+	add = 0;	
+	for (i = 0; i < 10; i ++)		
+		add += parseInt(cpf.charAt(i)) * (11 - i);	
+	rev = 11 - (add % 11);	
+	if (rev == 10 || rev == 11)	
+		rev = 0;	
+	if (rev != parseInt(cpf.charAt(10)))
+		return false;		
+	return true;   
+}
 
 const validarTelefone = (tel) => {
   let expressao =
@@ -55,7 +92,15 @@ Template.login.events({
    
    Meteor.loginWithPassword(username, password, function(e){
      if(!e){
-      FlowRouter.go("/marcarconsulta");
+       if(Meteor.user().profile.active){
+         FlowRouter.go("/marcarconsulta");
+       }else{
+         swal({
+           title: "Usuário desativado!",
+           text: 'Seu usuário está desativado!',
+           icon: 'error'
+         })
+       }
      }else{
 
        if(e.reason === "Incorrect password"){
@@ -67,16 +112,16 @@ Template.login.events({
          return
        }else if(e.reason === "User not found"){
         swal({
-          title: "E-mail não encontrado!",
-          text: `Por favor, verifique seu e-mail!`,
+          title: "Usuário não encontrado!",
+          text: `Por favor, verifique seus dados!`,
           icon: "error",
         });
         return
        }
 
        swal({
-        title: "Deu Ruim!",
-        text: `${e}`,
+        title: "Preencha os campos para fazer o acesso!",
+        text: `Preencha o campo de login e senha!`,
         icon: "error",
       });
 
@@ -88,75 +133,109 @@ Template.login.events({
 
   "click .criarUsuario"(event) {
     event.preventDefault();
-    let nome = document.getElementById("nomeCompleto").value;
-    let email = document.getElementById("email").value;
-    let tel = document.getElementById("telefone").value;
-    let senha = document.getElementById("senha").value;
-    let confirmaSenha = document.getElementById("confirmaSenha").value;
+    swal({
+      title: "Deseja criar uma conta!",
+      icon: "info",
+      buttons: ["Não","Sim"],
+      dangerMode: false,
+    }).then((sim)=>{
+      if(sim){
+          let nome = document.getElementById("nomeCompleto").value;
+          let email = document.getElementById("email").value;
+          let tel = document.getElementById("telefone").value;
+          let cpf = document.getElementById("cpf").value
+          let senha = document.getElementById("senha").value;
+          let confirmaSenha = document.getElementById("confirmaSenha").value;
 
-    if (nome && email && tel && senha && confirmaSenha) {
-      if(validarEmail(email)){
-        if (validarTelefone(tel)) {
-            if (validarSenha(senha, confirmaSenha)) {
+          if (nome && email && tel && cpf && senha && confirmaSenha) {
+            if(validarEmail(email)){
+              if (validarTelefone(tel)) {
+                if(validarCPF(cpf)){
+                  if (validarSenha(senha, confirmaSenha)) {
+                    let usuario = {
+                          username : cpf,
+                          email: email,
+                          password: senha,
+                          profile:{
+                            data:{
+                              name: nome,
+                              telefone: tel,
+                              cpf: cpf
+                          },
+                          perfil: 'Cliente',
+                          active: true,
+                          },
+                        }
 
-                let usuario = {
-                    username : email,
-                    email: email,
-                    password: senha,
-                    profile:{
-                      data:{
-                        name: nome,
-                        telefone: tel,
-                      },
-                      perfil: 'userComum'
-                    },
-                    data:{
-                      active: true,
-                    }
+                    Meteor.call('criarUsuario',usuario,function(error){
+                        if(!error){
+                            swal({
+                                title: "Conta criada!",
+                                text: "Sua conta foi criada com sucesso!",
+                                icon: "success",
+                              });
+                            $('#exampleModal').modal('hide')
+                        }else{
+                          console.log(error)
+                          if(error.reason === 'Email already exists.'){
+                            swal({
+                                  title: "Existe um usuário com esse E-mail!",
+                                  text: `verifique o seu e-mail!`,
+                                  icon: "error",
+                                });
+                          }else if(error.reason === 'Username already exists.'){
+                            swal({
+                                title: "Existe um usuário com esse CPF!",
+                                text: `verifique o seu CPF!`,
+                                icon: "error",
+                            });
+                          }else{
+                            swal({
+                                title: "Deu ruim!",
+                                text: `${error}`,
+                                icon: "error",
+                            });
+                          }
+                        }
+                    })
+                  } else {
+                    swal({
+                      title: "Senhas diferentes!",
+                      text: "Por favor, verifique a senha!",
+                      icon: "info",
+                    });
+                  }
+                }else{
+                  swal({
+                    title: "CPF incorreto!",
+                    text: "Por favor, verifique seu CPF!",
+                    icon: "info",
+                  });
                 }
-
-                Meteor.call('criarUsuario',usuario,function(error){
-                    if(!error){
-                        swal({
-                            title: "Conta criada!",
-                            text: "Sua conta foi criada com sucesso!",
-                            icon: "success",
-                          });
-                    }else{
-                        swal({
-                            title: "Erro!",
-                            text: `${error}`,
-                            icon: "error",
-                          });
-                    }
-                })
-            } else {
-              swal({
-                title: "Senhas diferentes!",
-                text: "Por favor, verifique a senha!",
+              } else {
+                swal({
+                  title: "Telefone incorreto!",
+                  text: "Por favor, verifique o telefone!",
+                  icon: "info",
+                });
+              }
+            }else{
+            swal({
+                title: "E-mail incorreto!",
+                text: "Por favor, verifique o e-mail!",
                 icon: "info",
               });
-            }
-          } else {
-            swal({
-              title: "Telefone incorreto!",
-              text: "Por favor, verifique o telefone!",
-              icon: "info",
-            });
           }
-      }else{
-        swal({
-            title: "E-mail incorreto!",
-            text: "Por favor, verifique o e-mail!",
+          } else {
+          swal({
+            title: "Campos obrigatorios!",
+            text: "Por favor, preencha todos os campos obrigatorios!",
             icon: "info",
           });
+        }
+      }else{
+
       }
-    } else {
-      swal({
-        title: "Campos obrigatorios!",
-        text: "Por favor, preencha todos os campos obrigatorios!",
-        icon: "info",
-      });
-    }
+    })
   },
 });

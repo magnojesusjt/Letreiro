@@ -1,3 +1,17 @@
 .teste{
     padding-top: 71px;
 }
+
+.reactive-table-input{
+    margin-left: 10px !important;
+}
+
+.page-number{
+    text-align: center
+}
+
+.rows-per-page{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}

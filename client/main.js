@@ -18,12 +18,13 @@ import moment from 'moment';
 import 'moment/locale/pt-br'
 import chart from '../node_modules/chart.js/dist/chart'
 
-
+import {$} from 'meteor/jquery'
 
 moment.locale('pt-br');
 
+Meteor.startup(function(){
+   
 
-import { $ } from 'meteor/jquery';
-import dataTablesBootstrap from 'datatables.net-bs';
-import 'datatables.net-bs/css/dataTables.bootstrap.css';
-dataTablesBootstrap(window, $);
+})
+
+

@@ -15,6 +15,6 @@ Meteor.publish('chamados', function () {
 
 Meteor.publish('users', function () {
     
-        return Meteor.users.find({});
+        return Meteor.users.find({'profile.active': true});
 
 });

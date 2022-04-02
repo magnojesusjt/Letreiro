@@ -21,28 +21,72 @@ Template.gerenciarUsers.helpers({
     const instance = Template.instance();
     var user = instance.detalhesUser.get()
     Session.set("perfilSelecionado",user.profile.perfil)
-    return Session.equals('perfilSelecionado', this._id) ? 'selected' : '';
-  }
+    return Session.equals('perfilSelecionado', this.perfil) ? 'selected' : '';
+  },
+  settings: function () {
+    return {
+        rowsPerPage: 25,
+        showNavigation: 'auto',
+        showColumnToggles: false,
+        showFilter: true,
+        fields: [
+            { key: 'username', label: 'Login' },
+            { key: 'profile.data.name', label: 'Nome' },
+            { key: 'emails.0.address', label: 'Email' },
+            { key: 'profile.data.telefone', label: 'Telefone' },
+            { key: 'profile.data.cpf', label: 'CPF' },
+            { key: 'profile.perfil', label: 'perfil' },
+            {
+                key: 'selecionarUsuario',
+                label:'',
+                fn: function (value) {
+                    // return new Spacebars.SafeString("<a href='#modal' data-toggle='modal' id='linkModal'><i class=''></i></a>");
+                    return new Spacebars.SafeString("<button id='btnViewUsuario' class='btn btn-primary' title='Detalhes'>Detalhes</button>");
+                }
+            },
+            {
+                key: 'delUser',
+                label:'',
+                fn: function (value) {
+                    // return new Spacebars.SafeString("<a href='#modal' data-toggle='modal' id='linkModal'><i class=''></i></a>");
+                    return new Spacebars.SafeString("<button type='button' id='btnDesUser' class='btn btn-danger' title='Desativar Usuário'>Desativar</button>");
+                }
+            }
+        ]
+    }
+}
 })
 
 Template.gerenciarUsers.onCreated(function (){
     Meteor.subscribe('users');
     Meteor.subscribe("permissoes");
+    i18n.setLanguage('pt-br');
 
     this.detalhesUser = new ReactiveVar([])
 
 })
 
 Template.gerenciarUsers.events({
-    'click #abrirModal'(event){
-        event.preventDefault();
-        Modal.show("adicionarUser");
+    'click #tableUsers tbody tr'(event){
+        switch(event.target.id){
+            case 'btnViewUsuario':
+                const instance = Template.instance();
+
+                var _id = this._id;
+
+                var user = Meteor.users.find({_id}).fetch()
+
+                instance.detalhesUser.set(user[0])
+                $('#modalDetalhesUsuario').modal('show')
+               break
+        }
     },
+    
     'click #adicionarUsuario'(event){
         event.preventDefault();
 
         swal({
-            title: "Tem certeza que quer adcionar esse usuário?",
+            title: "Deseja adcionar esse usuário?",
             icon: "warning",
             buttons: ["Não", "Sim"],
         })
@@ -110,3 +154,4 @@ Template.gerenciarUsers.events({
         instance.detalhesUser.set(user[0])
     }
 })
+
