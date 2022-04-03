@@ -12,10 +12,6 @@ Template.dashBoards.onCreated(function (){
     
 })
 
-Template.dashBoards.helpers({
-   
-})
-
 Template.dashBoards.onRendered(function (){
       
     setTimeout(() => {
@@ -40,7 +36,7 @@ Template.dashBoards.onRendered(function (){
             indexAxis: 'y',
             scales: {
                 x: {
-                    beginAtZero: false
+                    beginAtZero: true
                 }
             }
         }

@@ -66,7 +66,7 @@ FlowRouter.route('/', {
           BlazeLayout.render("menu",{content:"gerenciarUsers"});
 
         }
-      }, 200);
+      }, 400);
       },
     
   });
@@ -83,6 +83,47 @@ FlowRouter.route('/', {
       },
     
   });
+
+  FlowRouter.route('/consultasagendadas', {
+    triggersEnter: [checkUsuarioLoggedIn],
+    action() {
+      setTimeout(() => {
+        if(Meteor.user().profile.perfil === 'Cliente'){
+          BlazeLayout.render("menu",{content:"consultasAgendadasCliente"});
+
+        }
+      }, 500);
+      },
+    
+  });
+
+  FlowRouter.route('/consultasagendadasAtendente', {
+    triggersEnter: [checkUsuarioLoggedIn],
+    action() {
+      setTimeout(() => {
+        if(Meteor.user().profile.perfil === 'Atendente'){
+          BlazeLayout.render("menu",{content:"consultaAgendadasAtendente"});
+
+        }
+      }, 500);
+      },
+    
+  });
+
+  FlowRouter.route('/consulta', {
+    triggersEnter: [checkUsuarioLoggedIn],
+    action() {
+      setTimeout(() => {
+        if(Meteor.user().profile.perfil === 'Atendente'){
+          BlazeLayout.render("menu",{content:"marcarConsultaAtendente"});
+
+        }
+      }, 500);
+      },
+    
+  });
+
+
 
   FlowRouter.route('/gerenciarchamados', {
     triggersEnter: [checkUsuarioLoggedIn],

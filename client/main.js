@@ -14,6 +14,9 @@ import '../imports/ui/gerenciarChamado/gerenciarChamado'
 import '../imports/ui/abrirChamado/abrirChamado'
 import '../imports/ui/dashBoards/dashBoards'
 import '../imports/ui/consultaAgendadasDentista/dentista'
+import '../imports/ui/consultaAgendadasCliente/consultasAgendadasCliente'
+import '../imports/ui/consultaAgendadasAtendente/consultaAgendadasAtendente'
+import '../imports/ui/marcarConsultaAtendente/marcarConsultaAtendente'
 import swal from 'sweetalert';
 import moment from 'moment';
 import 'moment/locale/pt-br'

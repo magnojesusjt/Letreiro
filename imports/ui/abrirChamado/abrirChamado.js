@@ -4,6 +4,7 @@ import {Chamados} from '../../api/chamados/chamados'
 
 Template.abrirChamado.onCreated(function (){
  Meteor.subscribe('chamados')
+ this.chamadoSelecionado = new ReactiveVar([])
 });
 
 
@@ -27,24 +28,66 @@ Template.abrirChamado.helpers({
                     key: 'detalhesChamado',
                     label:'',
                     fn: function (value) {
-                        // return new Spacebars.SafeString("<a href='#modal' data-toggle='modal' id='linkModal'><i class=''></i></a>");
-                        return new Spacebars.SafeString("<button id='detalhesChamado' class='btn btn-primary' title='Detalhes'>Detalhes</button>");
+                        return new Spacebars.SafeString("<button id='detalhesChamado' data-bs-toggle='modal' data-bs-target='#chamadoSelecionado' class='btn btn-primary' title='Detalhes'>Detalhes</button>");
                     }
                 },
                 {
                     key: 'delChamado',
                     label:'',
                     fn: function (value) {
-                        // return new Spacebars.SafeString("<a href='#modal' data-toggle='modal' id='linkModal'><i class=''></i></a>");
-                        return new Spacebars.SafeString("<button type='button' id='delChamado' class='btn btn-danger' title='Desativar Chamado'>Desativar</button>");
+                        return new Spacebars.SafeString("<button type='button' id='delChamado' class='btn btn-danger' title='Excluir Chamado'>Excluir</button>");
                     }
                 }
             ]
         }
+    },
+    chamadoSelecionado(){
+        const instance = Template.instance();
+        return instance.chamadoSelecionado.get()
     }
 })
 
 Template.abrirChamado.events({
+    'click #tableChamados tbody tr'(event){
+
+        switch(event.target.id){
+            case 'delChamado':
+                swal({
+                    title: 'Deseja excluir o chamado?',
+                    icon: 'warning',
+                    buttons: ["Não", "Sim"],
+                    dangerMode: true,
+                }).then((sim)=>{
+                    if(sim){
+                        Meteor.call('excluirChamado',this._id, function(error){
+                            if(!error){
+                                swal({
+                                    title:"Chamado excluido com sucesso!",
+                                    icon:"success"
+                                })
+                            }else{
+                                swal({
+                                    title:"Não foi possível excluir o chamado!",
+                                    icon:"error"
+                                })
+                            }
+                        })
+                    }
+                })
+                break
+            case 'detalhesChamado':
+                    const instance = Template.instance()
+
+                    var _id = this._id
+
+                    var chamado = Chamados.find({_id}).fetch()
+
+                    console.log(chamado)
+
+                    instance.chamadoSelecionado.set(chamado[0])
+        }
+
+    },
     'click #enviarChamado'(event){
         event.preventDefault()
         swal({
@@ -67,7 +110,8 @@ Template.abrirChamado.events({
                         usuario,
                         email,
                         userId,
-                        status:'Aberto'
+                        status:'Aberto',
+                        desativado: false
                     }
 
                     Meteor.call("abrirChamado",data,function(e){
@@ -82,8 +126,7 @@ Template.abrirChamado.events({
                             document.getElementById('mensagem').value=''
                         }else{
                             swal({
-                                title: "Aconteceu algum erro!",
-                                text: "Nossa equipe já está verificando o problema!",
+                                title: "Não foi possível criar o chamado!",
                                 icon: "error",
                               });
                         }

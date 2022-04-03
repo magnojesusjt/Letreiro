@@ -1,0 +1,75 @@
+import './consultaAgendadasAtendente.html'
+import {Consulta} from '../../api/atendimento/atendimento'
+import moment from 'moment';
+import swal from 'sweetalert';
+
+Template.consultaAgendadasAtendente.onCreated(function (){
+    Meteor.subscribe('consulta')
+    i18n.setLanguage('pt-br');
+
+})
+
+Template.consultaAgendadasAtendente.helpers({
+    tem(){
+        var data = Consulta.find({ "agendada": true }).count()
+        console.log(data)
+        if(data >= 1){
+            return true
+        }
+
+        return false
+    },
+    settings: function () {
+        return {
+            collection: Consulta.find({ "agendada": true }),
+            rowsPerPage: 25,
+            showNavigation: 'auto',
+            showColumnToggles: false,
+            showFilter: true,
+            fields: [
+                { key: 'dentista', label: 'Nome do Dentista' },
+                { key: 'cliente', label: 'Nome do Cliente' },
+                { key: 'tipoAtendimento', label: 'Tipo de atendimento' },
+                { key: 'dataHora', label: 'Data/Hora', fn: function (data) { return moment(data).format('LLL')}},
+                {
+                    key: 'cancelarConsultaCliente',
+                    label:'',
+                    fn: function () {
+                        return new Spacebars.SafeString("<button id='cancelarConsultaCliente' class='btn btn-danger' title='Cancelar'>Cancelar Consulta</button>");
+                    }
+                }
+            ]
+        }
+    }
+})
+
+Template.consultaAgendadasAtendente.events({
+    'click #consultasAgendadasCliente tbody tr'(event){
+        switch(event.target.id){
+            case 'cancelarConsultaCliente':
+                swal({
+                    title:'Deseja cancelar essa consulta?',
+                    icon:'info',
+                    buttons: ["Não", "Sim"],
+                    dangerMode: true,
+                }).then((sim)=>{
+                    if(sim){
+                        var _id = this._id
+                        Meteor.call('cancelarAtendimento',_id, function(error){
+                            if(!error){
+                                swal({
+                                    title:'Consulta cancelada com sucesso!',
+                                    icon:'success'
+                                })
+                            }else{
+                                swal({
+                                    title:'Não foi possível cancelar essa consulta!',
+                                    icon:'error'
+                                })
+                            }
+                        })
+                    }
+                })
+        }
+    }
+})

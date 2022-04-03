@@ -1,0 +1,18 @@
+<template name="consultaAgendadasAtendente">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                Consultas Agendadas
+            </div>
+            <div class="card-body">
+                {{#if tem}}
+                    {{> reactiveTable id="consultasAgendadasCliente" settings=settings class="table table-striped table-bordered mt-2 table-responsive"}}
+                {{else}}
+                    <div class="d-flex justify-content-center">
+                        <h1>Sem consultas Agendadas</h1>    
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</template>

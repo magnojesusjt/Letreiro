@@ -3,6 +3,7 @@ import {TipoAtendimento} from '../../api/tipoAtendimento/tipoAtendimento'
 import {Consulta} from '../../api/atendimento/atendimento'
 import swal from 'sweetalert'
 import { ReactiveVar } from "meteor/reactive-var";
+import moment from 'moment';
 
 
 
@@ -37,13 +38,15 @@ Template.marcarConsulta.helpers({
             fields: [
                 { key: 'dentista', label: 'Nome do Dentista' },
                 { key: 'tipoAtendimento', label: 'Tipo de atendimento' },
-                { key: 'dataHora', label: 'Data/Hora' },,
+                { key: 'dataHora', label: 'Data/Hora', fn: function(val){
+                    return moment(val).format('LLL')
+                }},,
                 {
                     key: 'detalhesConsultaCliente',
                     label:'',
                     fn: function (value) {
                         // return new Spacebars.SafeString("<a href='#modal' data-toggle='modal' id='linkModal'><i class=''></i></a>");
-                        return new Spacebars.SafeString("<button id='detalhesConsultaCliente' class='btn btn-primary' title='Detalhes'>Detalhes</button>");
+                        return new Spacebars.SafeString("<button id='agendarConsultaCliente' class='btn btn-primary' title='Detalhes'>Agendar</button>");
                     }
                 }
             ]
@@ -97,5 +100,33 @@ Template.marcarConsulta.events({
 
         
 
+    },
+
+    'click #tableConsultaCliente tbody tr'(event){
+        switch(event.target.id){
+            case 'agendarConsultaCliente':
+                swal({
+                    title:'Deseja agendar esse consulta?',
+                    icon:'info',
+                    buttons: ["Não", "Sim"],
+                }).then((sim)=>{
+                    if(sim){
+                        var _id = this._id
+                        Meteor.call('agendarConsultaCliente',_id, function(error){
+                            if(!error){
+                                swal({
+                                    title:'Consulta agendada com sucesso!',
+                                    icon:'success'
+                                })
+                            }else{
+                                swal({
+                                    title:'Não foi possível agendar essa consulta!',
+                                    icon:'error'
+                                })
+                            }
+                        })
+                    }
+                })
+        }
     }
 })

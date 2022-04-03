@@ -38,7 +38,7 @@
              </div>
              <div class="col-sm-12 col-md-3 mt-2">
                 <label>CPF: *</label>
-               <input id="cpf" class="form-control" type="text">
+               <input id="cpf" class="form-control" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1')">
             </div>
              <div class="col-sm-12 col-md-7 mt-2">
                 <label>Perfil: *</label>
@@ -51,7 +51,7 @@
             </div>
             <div class="col-sm-12 col-md-3 mt-2">
                 <label>Telefone: *</label>
-                <input id="telefone" class="form-control" type="text">
+                <input id="telefone" class="form-control" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1')">
             </div>
             <div class="col-sm-12 col-md-7 mt-2">
                 <label>E-mail: *</label>

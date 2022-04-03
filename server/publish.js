@@ -20,7 +20,7 @@ Meteor.publish('consulta', function () {
 });
 
 Meteor.publish('chamados', function () {
-    return Chamados.find({});
+    return Chamados.find({"desativado":false});
 });
 
 Meteor.publish('users', function () {

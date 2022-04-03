@@ -6,5 +6,8 @@ Meteor.methods({
     'abrirChamado'(data){
         console.log("entrei")
         Chamados.insert(data);
+    },
+    'excluirChamado'(_id){
+        Chamados.update({_id: _id},{$set:{desativado:true}})
     }
 })

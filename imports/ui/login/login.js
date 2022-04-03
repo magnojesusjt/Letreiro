@@ -93,7 +93,7 @@ Template.login.events({
    Meteor.loginWithPassword(username, password, function(e){
      if(!e){
        if(Meteor.user().profile.active){
-         FlowRouter.go("/marcarconsulta");
+         FlowRouter.go("/perfil");
        }else{
          swal({
            title: "Usuário desativado!",

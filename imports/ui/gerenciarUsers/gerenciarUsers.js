@@ -109,7 +109,7 @@ Template.gerenciarUsers.helpers({
                 label:'',
                 fn: function (value) {
                     // return new Spacebars.SafeString("<a href='#modal' data-toggle='modal' id='linkModal'><i class=''></i></a>");
-                    return new Spacebars.SafeString("<button id='btnViewUsuario' class='btn btn-primary' title='Detalhes'>Detalhes</button>");
+                    return new Spacebars.SafeString("<button id='btnViewUsuario' data-bs-toggle='modal' data-bs-target='#modalDetalhesUsuario' class='btn btn-primary' title='Detalhes'>Detalhes</button>");
                 }
             },
             {
@@ -145,8 +145,33 @@ Template.gerenciarUsers.events({
                 var user = Meteor.users.find({_id}).fetch()
 
                 instance.detalhesUser.set(user[0])
-                $('#modalDetalhesUsuario').modal('show')
+               
                break
+            case 'btnDesUser':
+                var _id = this._id
+                swal({
+                    title:"Deseja desativar esse usuário?",
+                    icon:"info",
+                    buttons: ["Não", "Sim"],
+                    dangerMode: true,
+                }).then((sim)=>{
+                    if(sim){
+                        Meteor.call('desativarUsers',_id,function(error){
+                            if(!error){
+                                swal({
+                                    title:"Usuário desativado com sucesso!",
+                                    icon: 'success'
+                                })
+                            }else{
+                                swal({
+                                    title:"Não foi possível desativar esse usuário",
+                                    icon: 'error'
+                                })
+                            }
+                        })
+                    }
+                })
+                break   
         }
     },
 
@@ -246,41 +271,69 @@ Template.gerenciarUsers.events({
                 let email = document.getElementById('email').value;
                 let perfil = document.getElementById('cargo');
                 let perfilId = perfil.options[perfil.selectedIndex].value;
-                if(nome && cpf && telefone && email && perfilId){
-                    const usuario = {
-                        username: cpf,
-                        email: email,
-                        password: 'agendAki123',
-                        profile:{
-                            data: {
-                                name: nome,
-                                cpf: cpf,
-                                telefone: telefone,
-                            },
-                            perfil: perfilId,
-                            active: true
-                        }
-                    }
-                    Meteor.call('criarUsuario',usuario,function(error){
-                        if(!error){
-                            swal({
-                                title: "Conta criada!",
-                                text: "Sua conta foi criada com sucesso! Senha padrão é: agendAki123",
-                                icon: "success",
-                              });
-                            }else{
-                            swal({
-                                title: "Erro!",
-                                text: `${error}`,
-                                icon: "error",
-                              });
-                        }
-                    })
 
+                if(nome && cpf && email && telefone && perfilId){
+                    if(validarCPF(cpf)){
+                        if(validarTelefone(telefone)){
+                            if(validarEmail(email)){
+
+                                const usuario = {
+                                    username: cpf,
+                                    email: email,
+                                    password: 'agendAki123',
+                                    profile:{
+                                        data: {
+                                            name: nome,
+                                            cpf: cpf,
+                                            telefone: telefone,
+                                        },
+                                        perfil: perfilId,
+                                        active: true
+                                    }
+                                }
+                                Meteor.call('criarUsuario',usuario,function(error){
+                                    if(!error){
+                                        swal({
+                                            title:'Conta criada com sucesso! Senha padrão é: agendAki123',
+                                            icon:'success'
+                                        })
+
+                                        $('#modalAdiconarUsuario').modal('hide')
+                                    }else{
+                                        console.log(error)
+                                        swal({
+                                            title:'Não foi possível cirar a conta',
+                                            icon:'error'
+                                        })
+
+                                    }
+                                })
+                            }else{
+                                swal({
+                                    title:'E-mail Incorreto!',
+                                    text:'Por favor, verifique o seu e-mail!',
+                                    icon:'info'
+                                })
+                            }
+                        }else{
+                            swal({
+                                title:'Telefone Incorreto!',
+                                text:'Por favor, verifique o seu telefone!',
+                                icon:'info'
+                            })
+                        }
+                    }else{
+                        swal({
+                            title:"CPF incorreto!",
+                            text:"por favor, verifique o seu CPF",
+                            icon:"info"
+                        })
+                    }
                 }else{
                     swal({
-                        title: "Preencha todos os campos!",
-                        icon: "error"
+                        title:"Preencha todos os campos!",
+                        // text:"por favor, verifique o seu CPF",
+                        icon:"info"
                     })
                 }
             } else {

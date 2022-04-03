@@ -30,5 +30,10 @@ Meteor.methods({
                 }
             });
         }
+    },
+    'desativarUsers'(_id){
+        Meteor.users.update({ _id: _id},{$set: {
+            'profile.active':false
+        } })
     }
 })
