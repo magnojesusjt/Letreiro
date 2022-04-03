@@ -1,4 +1,7 @@
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
+import { Roles } from 'meteor/alanning:roles';
+import { Meteor } from 'meteor/meteor';
+
 
 FlowRouter.route('/', {
     action() {
@@ -58,7 +61,25 @@ FlowRouter.route('/', {
   FlowRouter.route('/gerenciamentodeusuarios', {
     triggersEnter: [checkUsuarioLoggedIn],
     action() {
-        BlazeLayout.render("menu",{content:"gerenciarUsers"});
+      setTimeout(() => {
+        if(Meteor.user().profile.perfil === 'Administrador' || Meteor.user().profile.perfil === 'Suporte'){
+          BlazeLayout.render("menu",{content:"gerenciarUsers"});
+
+        }
+      }, 200);
+      },
+    
+  });
+
+  FlowRouter.route('/consultasagendadasdentista', {
+    triggersEnter: [checkUsuarioLoggedIn],
+    action() {
+      setTimeout(() => {
+        if(Meteor.user().profile.perfil === 'Dentista'){
+          BlazeLayout.render("menu",{content:"dentista"});
+
+        }
+      }, 500);
       },
     
   });

@@ -7,42 +7,70 @@
         </div>
 
         <ul class="list-unstyled components">
-            
-            <li >
-                
-                <a href="/marcarconsulta"><h5>Marcar Consulta</h5></a>
-                
+            {{#if gerenciarMarcarConsultaCliente}}
+            <li> 
+                <a href="/marcarconsulta"><h5>Marcar Consulta Cliente</h5></a>
             </li>
+            {{/if}}
+            {{#if gerenciarMarcarConsulta}}
+            <li> 
+                <a href="/consulta"><h5>Marcar Consulta</h5></a>
+            </li>
+            {{/if}}
+            {{#if gerenciarConsultasAgendadasDentista}}
             <li>
-                <a href="/consultasagendadas"><h5>Consultas Agendadas</h5></a>
+                <a href="/consultasagendadasdentista"><h5>Consultas Agendadas</h5></a>
                
-            </li> 
+            </li>
+            {{/if}} 
+            {{#if gerenciarConsultasAgendadasAtendente}}
+            <li>
+                <a href="/consultasagendadasAtendente"><h5>Consultas</h5></a>
+               
+            </li>
+            {{/if}} 
+            {{#if gerenciarConsultasAgendadas}}
             <li>
                 <a href="/consultasagendadas"><h5>Gerenciar consultas agendadas</h5></a>
                
             </li> 
+            {{/if}} 
+            {{#if gerenciarDispobinilizar}}
             <li>
                 <a href="/agenda"><h5>Dispobinilizar horario</h5></a>
                
             </li>
+            {{/if}}
+            {{#if gerenciarUsuarios}}
             <li>
                 <a href="/gerenciamentodeusuarios"><h5>Gerenciar Usuários</h5></a>
             </li>
+            {{/if}}
+            {{#if gerenciarLetreiro}}
             <li>
                 <a href="#"><h5>Letreiro</h5></a>
             </li>
+            {{/if}}
+            {{#if gerenciarDash}}
             <li>
                 <a href="/dashboards"><h5>Dasboard</h5></a>
             </li>
+            {{/if}}
+            {{#if gerenciarPerfil}}
             <li>
                 <a href="/perfil"><h5>Perfil</h5></a>
             </li>
+            {{/if}}
+            {{#if gerenciarAbrirChamado}}
             <li>
                 <a href="/abrirchamado"><h5>Abrir Chamado</h5></a>
             </li>
+            {{/if}}
+            {{#if gerenciarChamado}}
             <li>
                 <a href="/gerenciarchamados"><h5>Gerenciar Chamados</h5></a>
             </li>
+            {{/if}}
            
         </ul>
 
@@ -70,7 +98,7 @@
               
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">{{user}}</a>
+                            <a class="nav-link" href="#">{{user.profile.data.name}}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"  href="#">{{data}}</a>

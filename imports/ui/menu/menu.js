@@ -37,12 +37,86 @@ Template.menu.onCreated(function(){
 
 Template.menu.helpers({
     user() {
-        return Meteor.user().profile.data.name
+        return Meteor.user()
     },
 
     data(){
         const data = new Date()
         console.log(data)
-        return moment(data).subtract(10, 'days').calendar()
+        return moment(data).format('DD-MM-YYYY')
+    },
+
+    gerenciarUsuarios(){
+      if(Meteor.user().profile.perfil === 'Administrador' || Meteor.user().profile.perfil === 'Suporte'){
+        return true
+      }
+       return false
+    },
+    gerenciarLetreiro(){
+      if(Meteor.user().profile.perfil === 'Atendente'){
+        return true
+      }
+       return false
+    },
+    gerenciarDash(){
+        if(Meteor.user().profile.perfil === 'Administrador' ){
+          return true
+        }
+         return false
+    },
+    gerenciarPerfil(){
+      if(Meteor.user().profile.perfil === 'Cliente' || Meteor.user().profile.perfil === 'Dentista' || Meteor.user().profile.perfil === 'Suporte' || Meteor.user().profile.perfil === 'Administrador' || Meteor.user().profile.perfil === 'Atendente'){
+        return true
+      }
+       return false
+    },
+    gerenciarAbrirChamado(){
+      if(Meteor.user().profile.perfil === 'Cliente' || Meteor.user().profile.perfil === 'Dentista' || Meteor.user().profile.perfil === 'Administrador' || Meteor.user().profile.perfil === 'Atendente'){
+        return true
+      }
+       return false
+    },
+    gerenciarChamado(){
+      if(Meteor.user().profile.perfil === 'Suporte'){
+        return true
+      }
+       return false
+    },
+    gerenciarMarcarConsultaCliente(){
+      if(Meteor.user().profile.perfil === 'Cliente' ){
+        return true
+      }
+       return false
+    },
+    gerenciarMarcarConsulta(){
+      if(Meteor.user().profile.perfil === 'Atendente'){
+        return true
+      }
+       return false
+    },
+    gerenciarConsultasAgendadas(){
+      if(Meteor.user().profile.perfil === 'Cliente'){
+        return true
+      }
+       return false
+    },
+    gerenciarConsultasAgendadasDentista(){
+      if(Meteor.user().profile.perfil === 'Dentista' ){
+        return true
+      }
+       return false
+    },
+    gerenciarConsultasAgendadasAtendente(){
+      if(Meteor.user().profile.perfil === 'Atendente'){
+        return true
+      }
+       return false
+    },
+    gerenciarDispobinilizar(){
+      if(Meteor.user().profile.perfil === 'Dentista' ){
+        return true
+      }
+       return false
     }
+    
 })

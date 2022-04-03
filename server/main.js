@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 
 import './methods/user.methods'
+import './methods/atendimento.methods'
 import './methods/chamado.methods'
 
 import './publish'

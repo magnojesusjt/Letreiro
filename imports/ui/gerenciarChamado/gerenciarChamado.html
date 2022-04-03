@@ -1,3 +1,12 @@
 <template name="gerenciarChamado">
-    <h1>Gerenciar Chamado</h1>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                Gerenciar Chamados
+            </div>
+            <div class="card-body">
+                {{> reactiveTable id='tableGerenciarChamados' settings=settings class="table table-striped table-bordered mt-2 table-responsive"}}
+            </div>
+        </div>
+    </div>
 </template>

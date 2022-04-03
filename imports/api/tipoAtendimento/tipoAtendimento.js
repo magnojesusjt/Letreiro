@@ -1,0 +1,1 @@
+export const TipoAtendimento = new Mongo.Collection('tipo_atendimento');

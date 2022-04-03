@@ -13,12 +13,13 @@ import '../imports/ui/gerenciarUsers/gerenciarUsers'
 import '../imports/ui/gerenciarChamado/gerenciarChamado'
 import '../imports/ui/abrirChamado/abrirChamado'
 import '../imports/ui/dashBoards/dashBoards'
+import '../imports/ui/consultaAgendadasDentista/dentista'
 import swal from 'sweetalert';
 import moment from 'moment';
 import 'moment/locale/pt-br'
 import chart from '../node_modules/chart.js/dist/chart'
 
-import {$} from 'meteor/jquery'
+
 
 moment.locale('pt-br');
 

@@ -32,20 +32,16 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            <div class="col-sm-12 col-md-3 mt-2">
-                <label>Matrícula:</label>
-                <input id="matricula" class="form-control" type="text">
-            </div>
              <div class="col-sm-12 col-md-7 mt-2">
-                 <label>Nome</label>
+                 <label>Nome: *</label>
                 <input id="nome" class="form-control" type="text">
              </div>
              <div class="col-sm-12 col-md-3 mt-2">
-                <label>CPF:</label>
+                <label>CPF: *</label>
                <input id="cpf" class="form-control" type="text">
             </div>
              <div class="col-sm-12 col-md-7 mt-2">
-                <label>Perfil</label>
+                <label>Perfil: *</label>
                <select id="cargo" class="form-control">
                    <option value="">Selecione:</option>
                    {{#each Permissoes }}
@@ -54,11 +50,11 @@
                </select>
             </div>
             <div class="col-sm-12 col-md-3 mt-2">
-                <label>Telefone:</label>
+                <label>Telefone: *</label>
                 <input id="telefone" class="form-control" type="text">
             </div>
             <div class="col-sm-12 col-md-7 mt-2">
-                <label>E-mail</label>
+                <label>E-mail: *</label>
                 <input id="email" class="form-control" type="text">
             </div>
          </div>
@@ -80,21 +76,17 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            <div class="col-sm-12 col-md-3 mt-2">
-                <label>Matrícula:</label>
-                <input value="{{detalhesUser.profile.data.matricula}}" id="matricula" class="form-control" type="text">
-            </div>
              <div class="col-sm-12 col-md-7 mt-2">
-                 <label>Nome</label>
-                <input value="{{detalhesUser.profile.data.name}}" id="nome" class="form-control" type="text">
+                 <label>Nome: *</label>
+                <input value="{{detalhesUser.profile.data.name}}" id="nomeDetalhes" class="form-control" type="text">
              </div>
              <div class="col-sm-12 col-md-3 mt-2">
-                <label>CPF:</label>
-               <input value="{{detalhesUser.profile.data.cpf}}" id="cpf" class="form-control" type="text">
+                <label>CPF: *</label>
+               <input value="{{detalhesUser.profile.data.cpf}}" maxlength="11" id="cpfDetalhes" class="form-control" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1')">
             </div>
              <div class="col-sm-12 col-md-7 mt-2">
-                <label>Perfil</label>
-               <select id="cargo" data-required="true" class="form-control">
+                <label>Perfil: *</label>
+               <select id="cargoDetalhes" data-required="true" class="form-control">
                    <option {{selected}}>Selecione:</option>
                    {{#each Permissoes }}
                    <option value="{{perfil}}" {{selected}}>{{perfil}}</option>
@@ -102,18 +94,18 @@
                </select>
             </div>
             <div class="col-sm-12 col-md-3 mt-2">
-                <label>Telefone:</label>
-                <input value="{{detalhesUser.profile.data.telefone}}" id="telefone" class="form-control" type="text">
+                <label>Telefone: *</label>
+                <input value="{{detalhesUser.profile.data.telefone}}" maxlength="11" id="telefoneDetalhes" class="form-control" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1')">
             </div>
             <div class="col-sm-12 col-md-7 mt-2">
-                <label>E-mail</label>
-                <input value="{{detalhesUser.username}}" id="email" class="form-control" type="text">
+                <label>E-mail: *</label>
+                <input value="{{detalhesUser.emails.[0].address}}" id="emailDetalhes" class="form-control" type="text">
             </div>
          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-          <button type="button" class="btn btn-danger" id="atualizarUsuario">atualizar</button>
+          <button type="button" class="btn btn-danger" data-id="{{detalhesUser._id}}" id="atualizarUsuario">atualizar</button>
         </div>
       </div>
     </div>

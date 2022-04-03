@@ -5,6 +5,74 @@ import swal from 'sweetalert';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 
+const validarCPF =(cpf) => {	
+	cpf = cpf.replace(/[^\d]+/g,'');	
+	if(cpf == '') return false;	
+	// Elimina CPFs invalidos conhecidos	
+	if (cpf.length != 11 || 
+		cpf == "00000000000" || 
+		cpf == "11111111111" || 
+		cpf == "22222222222" || 
+		cpf == "33333333333" || 
+		cpf == "44444444444" || 
+		cpf == "55555555555" || 
+		cpf == "66666666666" || 
+		cpf == "77777777777" || 
+		cpf == "88888888888" || 
+		cpf == "99999999999")
+			return false;		
+	// Valida 1o digito	
+	add = 0;	
+	for (i=0; i < 9; i ++)		
+		add += parseInt(cpf.charAt(i)) * (10 - i);	
+		rev = 11 - (add % 11);	
+		if (rev == 10 || rev == 11)		
+			rev = 0;	
+		if (rev != parseInt(cpf.charAt(9)))		
+			return false;		
+	// Valida 2o digito	
+	add = 0;	
+	for (i = 0; i < 10; i ++)		
+		add += parseInt(cpf.charAt(i)) * (11 - i);	
+	rev = 11 - (add % 11);	
+	if (rev == 10 || rev == 11)	
+		rev = 0;	
+	if (rev != parseInt(cpf.charAt(10)))
+		return false;		
+	return true;   
+}
+
+const validarTelefone = (tel) => {
+    let expressao =
+      "^((1[1-9])|([2-9][0-9]))((3[0-9]{3}[0-9]{4})|(9[0-9]{3}[0-9]{5}))$";
+    let regex = new RegExp(expressao);
+  
+    return regex.test(tel);
+  };
+
+const validarEmail = (email) => {
+    usuario = email.substring(0, email.indexOf("@"));
+    dominio = email.substring(
+      email.indexOf("@") + 1,
+      email.length
+    );
+    if (
+      usuario.length >= 1 &&
+      dominio.length >= 3 &&
+      usuario.search("@") == -1 &&
+      dominio.search("@") == -1 &&
+      usuario.search(" ") == -1 &&
+      dominio.search(" ") == -1 &&
+      dominio.search(".") != -1 &&
+      dominio.indexOf(".") >= 1 &&
+      dominio.lastIndexOf(".") < dominio.length - 1
+    ) {
+     return true
+    } else {
+     return false
+    }
+  };
+
 Template.gerenciarUsers.helpers({
   users(){
       return Meteor.users.find({}).fetch()
@@ -81,6 +149,87 @@ Template.gerenciarUsers.events({
                break
         }
     },
+
+    'click #atualizarUsuario'(event){
+        event.preventDefault()
+
+        swal({
+            title:'Deseja atualizar esse usuário',
+            icon:'info',
+            buttons: ["Não", "Sim"],
+        }).then((sim)=>{
+            if(sim){
+                let nome = document.getElementById('nomeDetalhes').value
+                let cpf = document.getElementById('cpfDetalhes').value
+                let email = document.getElementById('emailDetalhes').value
+                let perfil = document.getElementById('cargoDetalhes');
+                let perfilNome = perfil.options[perfil.selectedIndex].value;
+                let telefone = document.getElementById('telefoneDetalhes').value
+
+                if(nome && cpf && email && telefone && perfilNome){
+                    if(validarCPF(cpf)){
+                        if(validarTelefone(telefone)){
+                            if(validarEmail(email)){
+
+                                data = {
+                                    profile:{
+                                        name:nome,
+                                        cpf,
+                                        telefone
+                                    },
+                                    _id:event.target.dataset.id,
+                                    email,
+                                    perfilNome,
+                                }
+                                Meteor.call('atualizaUsuario',data,function(error){
+                                    if(!error){
+                                        swal({
+                                            title:'Usuário atualizado com sucesso',
+                                            icon:'success'
+                                        })
+
+                                        $('#modalDetalhesUsuario').modal('hide')
+                                    }else{
+                                        console.log(error)
+                                        swal({
+                                            title:'Não foi possível atualizar o usuário',
+                                            icon:'error'
+                                        })
+
+                                    }
+                                })
+                            }else{
+                                swal({
+                                    title:'E-mail Incorreto!',
+                                    text:'Por favor, verifique o seu e-mail!',
+                                    icon:'info'
+                                })
+                            }
+                        }else{
+                            swal({
+                                title:'Telefone Incorreto!',
+                                text:'Por favor, verifique o seu telefone!',
+                                icon:'info'
+                            })
+                        }
+                    }else{
+                        swal({
+                            title:"CPF incorreto!",
+                            text:"por favor, verifique o seu CPF",
+                            icon:"info"
+                        })
+                    }
+                }else{
+                    swal({
+                        title:"Preencha todos os campos!",
+                        // text:"por favor, verifique o seu CPF",
+                        icon:"info"
+                    })
+                }
+            }
+        })
+
+    },
     
     'click #adicionarUsuario'(event){
         event.preventDefault();
@@ -89,28 +238,24 @@ Template.gerenciarUsers.events({
             title: "Deseja adcionar esse usuário?",
             icon: "warning",
             buttons: ["Não", "Sim"],
-        })
-        .then((willDelete) => {
+        }).then((willDelete) => {
             if (willDelete) {
-                let mat = document.getElementById('matricula').value;
                 let nome = document.getElementById('nome').value;
                 let cpf = document.getElementById('cpf').value;
                 let telefone = document.getElementById('telefone').value;
                 let email = document.getElementById('email').value;
                 let perfil = document.getElementById('cargo');
                 let perfilId = perfil.options[perfil.selectedIndex].value;
-                if(mat && nome && cpf && telefone && email && perfilId){
+                if(nome && cpf && telefone && email && perfilId){
                     const usuario = {
-                        username: email,
+                        username: cpf,
                         email: email,
-                        // password: generator.generate({length:10, numbers: true}),
-                        password: 'Magno123',
+                        password: 'agendAki123',
                         profile:{
                             data: {
                                 name: nome,
                                 cpf: cpf,
                                 telefone: telefone,
-                                matricula: mat
                             },
                             perfil: perfilId,
                             active: true
@@ -120,7 +265,7 @@ Template.gerenciarUsers.events({
                         if(!error){
                             swal({
                                 title: "Conta criada!",
-                                text: "Sua conta foi criada com sucesso!",
+                                text: "Sua conta foi criada com sucesso! Senha padrão é: agendAki123",
                                 icon: "success",
                               });
                             }else{
@@ -143,15 +288,5 @@ Template.gerenciarUsers.events({
             }
           });
     },
-    'click .obterDados'(event){
-        event.preventDefault();
-        const instance = Template.instance();
-
-        var _id = event.target.dataset.id;
-
-        var user = Meteor.users.find({_id}).fetch()
-
-        instance.detalhesUser.set(user[0])
-    }
 })
 
