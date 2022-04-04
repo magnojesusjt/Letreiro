@@ -179,13 +179,13 @@ Template.login.events({
                           console.log(error)
                           if(error.reason === 'Email already exists.'){
                             swal({
-                                  title: "Existe um usuário com esse E-mail!",
+                                  title: "Já existe um usuário com esse E-mail!",
                                   text: `verifique o seu e-mail!`,
                                   icon: "error",
                                 });
                           }else if(error.reason === 'Username already exists.'){
                             swal({
-                                title: "Existe um usuário com esse CPF!",
+                                title: "Já existe um usuário com esse CPF!",
                                 text: `verifique o seu CPF!`,
                                 icon: "error",
                             });

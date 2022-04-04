@@ -14,7 +14,7 @@ Meteor.methods({
     'cancelarAgenda'(_id){
         Consulta.remove({_id: _id})
     },
-    'agendarConsultaCliente'({userIdCliente, idConsulta}){
+    'agendarConsultaAtendente'({userIdCliente, idConsulta}){
 
        let data = Meteor.users.find({_id:userIdCliente}).fetch()
 

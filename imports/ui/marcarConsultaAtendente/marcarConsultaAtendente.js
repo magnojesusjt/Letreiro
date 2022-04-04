@@ -136,7 +136,7 @@ Template.marcarConsultaAtendente.events({
                         idConsulta : event.target.dataset.id
                     }
 
-                    Meteor.call('agendarConsultaCliente', data, function(error){
+                    Meteor.call('agendarConsultaAtendente', data, function(error){
                         if(!error){
                             swal({
                                 title:"Consulta agendada com sucesso!",
