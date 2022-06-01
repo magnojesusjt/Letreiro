@@ -3,16 +3,43 @@ import './dashBoards.css'
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Chamados } from '../../api/chamados/chamados';
+import {Consulta} from '../../api/atendimento/atendimento'
 
 Template.dashBoards.onCreated(function (){
     
     Meteor.subscribe('users');
     Meteor.subscribe('chamados');
+    Meteor.subscribe('consulta');
 
     
 })
 
 Template.dashBoards.onRendered(function (){
+
+    setTimeout(() => {
+        var consultas = Consulta.find({'agendada':true}).count()
+        const ctx = document.getElementById('consulta')
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Consultas Agendadas'],
+            datasets: [{
+                label: 'Quantidade',
+                data: [consultas],
+                borderWidth: 1,
+                backgroundColor:['rgba(54, 162, 235, 0.2)']
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    }, 500);
       
     setTimeout(() => {
         var cliente = Meteor.users.find({'profile.perfil':'Cliente'}).count()

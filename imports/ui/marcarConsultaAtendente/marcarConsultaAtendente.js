@@ -142,6 +142,7 @@ Template.marcarConsultaAtendente.events({
                                 title:"Consulta agendada com sucesso!",
                                 icon:'info'
                             })
+                            
                             $('#modalDetalhesConsulta').modal('hide')
 
                         }else{

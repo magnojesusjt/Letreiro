@@ -16,7 +16,7 @@ Meteor.publish('tipo_atendimento', function () {
 });
 
 Meteor.publish('consulta', function () {
-    return Consulta.find({});
+    return Consulta.find({})
 });
 
 Meteor.publish('chamados', function () {

@@ -9,6 +9,11 @@ Template.perfil.onCreated(function (){
 Template.perfil.helpers({
     user(){
         return Meteor.user()
+    },
+    facebook(){
+        const profile = Meteor.user().profile
+
+        return profile.facebook ? false : true
     }
 })
 

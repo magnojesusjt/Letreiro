@@ -10,6 +10,13 @@ FlowRouter.route('/', {
     
   });
 
+  FlowRouter.route('/visualizarLetreiro', {
+    action() {
+        BlazeLayout.render("visualizarLetreiro");
+      },
+    
+  });
+
 
   FlowRouter.route('/login', {
     action() {
@@ -116,6 +123,19 @@ FlowRouter.route('/', {
       setTimeout(() => {
         if(Meteor.user().profile.perfil === 'Atendente'){
           BlazeLayout.render("menu",{content:"marcarConsultaAtendente"});
+
+        }
+      }, 500);
+      },
+    
+  });
+
+  FlowRouter.route('/letreiro', {
+    triggersEnter: [checkUsuarioLoggedIn],
+    action() {
+      setTimeout(() => {
+        if(Meteor.user().profile.perfil === 'Atendente'){
+          BlazeLayout.render("menu",{content:"letreiro"});
 
         }
       }, 500);

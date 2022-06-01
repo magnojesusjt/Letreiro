@@ -3,6 +3,8 @@ import "./login.css";
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
 import swal from "sweetalert";
+import { ReactiveVar } from "meteor/reactive-var";
+
 
 const validarCPF =(cpf) => {	
 	cpf = cpf.replace(/[^\d]+/g,'');	
@@ -80,11 +82,68 @@ const validarEmail = (email) => {
   }
 };
 
-Template.login.onCreated(function () {});
+Template.login.onCreated(function () {
+  this.carregar = new ReactiveVar(false)
+});
 
-Template.login.helpers({});
+Template.login.helpers({
+  carregar(){
+    instance = Template.instance()
+
+    return instance.carregar.get()
+  }
+});
 
 Template.login.events({
+  'click .novaSenha'(event){
+    event.preventDefault();
+    const instance = Template.instance()
+
+    const cpf = document.getElementById("novaSenhaCpf").value
+    const email = document.getElementById("novaSenhaEmail").value
+    
+    if(cpf !== '' && email !== ''){
+      Meteor.call('verificaUser', cpf, function (error, result){
+        if(result){
+              instance.carregar.set(true)
+          Meteor.call('resetSenha',result, function(error, result){
+            if(result){
+              instance.carregar.set(false)
+              swal({
+                title: "Uma nova senha foi enviada para o seu e-mail",
+                text: `Verifique sua caixa de entrada`,
+                icon: "success",
+              });
+              $('#esqueceuSenha').modal('hide')
+              document.getElementById("novaSenhaCpf").value = ''
+              document.getElementById("novaSenhaEmail").value = ''
+            }else{
+              instance.carregar.set(false)
+
+              swal({
+                title: "Não foi possível resetar sua senha",
+                text: `Tente novamente mais tarde.`,
+                icon: "error",
+              });
+            }
+          })
+        }else{
+          swal({
+            title: "Usuário não encontrado na base",
+            text: `Verifique seus dados`,
+            icon: "error",
+          });
+        }
+      })
+    }else{
+      swal({
+        title: "Preencha os campos",
+        text: `Preencha o campo E-mail e CPF!`,
+        icon: "error",
+      });
+    }
+
+  },
   "click #entrar"(event){
     event.preventDefault();
    const username = document.getElementById("emailLogin").value
@@ -174,9 +233,15 @@ Template.login.events({
                                 text: "Sua conta foi criada com sucesso!",
                                 icon: "success",
                               });
-                            $('#exampleModal').modal('hide')
+                              document.getElementById("nomeCompleto").value = ''
+                              document.getElementById("email").value = ''
+                              document.getElementById("telefone").value = ''
+                              document.getElementById("cpf").value = ''
+                              document.getElementById("senha").value = ''
+                              document.getElementById("confirmaSenha").value = ''                              
+                              $('#exampleModal').modal('hide')
+                              FlowRouter.go("/");
                         }else{
-                          console.log(error)
                           if(error.reason === 'Email already exists.'){
                             swal({
                                   title: "Já existe um usuário com esse E-mail!",
@@ -238,4 +303,27 @@ Template.login.events({
       }
     })
   },
+
+  'click #entrarFacebook'(event){
+    event.preventDefault();
+    console.log('entrei')
+    Meteor.loginWithFacebook({requestPermissions: ['public_profile', 'email']}, function(err, res){
+      if (err) {
+          console.log('Handle errors here: ', err);
+      }
+      const user = Meteor.user()
+      const ativaFacebook = user.profile ?? false
+      if(ativaFacebook){
+        FlowRouter.go("/perfil");
+      }else{
+        const user = Meteor.user()
+        Meteor.call('atualizarFacebook', user, function(error,res){
+          if(res){
+            FlowRouter.go("/perfil");
+          }
+        })
+      }
+      
+  });
+  }
 });

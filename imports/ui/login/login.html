@@ -1,5 +1,5 @@
 <template name="login">
-    <section class="ftco-section">
+  <section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-12 col-lg-10">
@@ -29,15 +29,17 @@
 		            <div class="form-group row">
                   <div class="col-4">
                     <button type="button" id="entrar" class="form-control btn btn-primary px-3 col-sm-5 ">Entrar</button>
+                    
                   </div>
-                  <!-- <div class="col-7">
-                    <button type="button" class="form-control btn btn-primary col-sm-6">Entrar com o Facebook</button>
-                  </div> -->
+                  <div class="col-7">
+                    <!-- <div id="entrarFacebook" class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div> -->
+                    <button type="button" id="entrarFacebook" class="form-control btn btn-primary col-sm-6">Entrar com o Facebook</button>
+                  </div>
 		            </div>
-		            <div class="form-group d-md-flex">
-						<!-- <div class="w-100 text-md-right">
-							<a href="#">Esqueceu senha?</a>
-						</div> -->
+		            <div class="form-group d-md-flex mt-3">
+                  <div class="w-100 text-md-right">
+                    <a class="pointer" data-bs-toggle="modal" data-bs-target="#esqueceuSenha">Esqueceu senha?</a>
+                  </div>
 		            </div>
 		          </form>
 		        </div>
@@ -93,4 +95,41 @@
           </div>
         </div>
     </div>
+
+    <div class="modal fade"   id="esqueceuSenha" tabindex="-1" aria-labelledby="esqueceuSenha" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Esqueceu senha</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          
+            </button>
+          </div>
+          <form>
+          <div class="modal-body">
+            <div class="row">
+                
+                  <div class="col-sm-12  mt-2">
+                      <label for="">E-mail: *</label>
+                      <input type="email" id="novaSenhaEmail" required class="form-control">
+                  </div>
+                  
+                  <div class="col-sm-12  mt-2">
+                    <label for="">CPF: *</label>
+                    <input type="text" id="novaSenhaCpf" maxlength="11" required class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1')">
+                  </div>
+              </div>
+              {{#if carregar }}
+              <div class="loader mt-2"></div>
+              {{/if}}
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+              <button type="button" class="btn btn-primary novaSenha">Enviar nova senha</button>
+          </div>
+      </form>
+        </div>
+      </div>
+  </div>
+ 
 </template>

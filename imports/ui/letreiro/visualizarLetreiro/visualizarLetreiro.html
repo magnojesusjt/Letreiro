@@ -1,0 +1,42 @@
+<template name="visualizarLetreiro">
+    <div class="container-fluid cor-fundo">
+        <div class="row">
+            <div class="col-lg-8 col-sm-12 p-0 align-self-center">
+                
+                <div class="d-flex justify-content-center">
+
+                    <h1 class="mt-5 cor-fonte tamanho-paciente">{{chamar.cliente}}</h1>
+                </div>
+                <div class="d-flex justify-content-center mt-5">
+                    <h1 class="cor-fonte tamanho-titulo ">Consultório {{chamar.consultorio}}</h1>
+                </div>
+                <!-- <div class="d-flex justify-content-center">
+
+                    <h1 class="mt-5 cor-fonte tamanho-paciente">{{chamar.consultorio}}</h1>
+                </div> -->
+            </div>
+
+            <div class="col-lg-4 col-sm-12 p-0">
+                 <div class="card card-tamanho">
+                     <div class="card-header d-flex justify-content-center header-tamanho">
+                         <h2 class="color-fonte">Últimas Chamadas</h2>
+                     </div>
+                     <div class="card-body color-body">
+                         {{#each u in ultimasChamadas}}
+                         <div class="card mt-5">
+                            <div class="card-body">
+                            <h5 class="card-title">Nome do paciente:</h5>
+                            <p class="card-text">{{u.cliente}}</p>
+                            <h5 class="card-title">Consultório:</h5>
+                            <p class="card-text">{{u.consultorio}}</p>
+                            </div>
+                          </div>
+                         {{/each}}
+                     </div>
+                 </div>
+            </div>
+        </div>
+        
+    </div>
+
+</template>

@@ -31,3 +31,6 @@ session@1.2.0
 aslagle:reactive-table
 anti:i18n
 alanning:roles
+email
+service-configuration
+accounts-facebook
