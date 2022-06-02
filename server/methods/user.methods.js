@@ -6,6 +6,7 @@ var generator = require('generate-password');
 Meteor.methods({
     'criarUsuario'(user){
         Accounts.createUser(user);
+        Meteor.users.update({username: user.username},{$set: {'profile': user.profile}})
     },
     'updateUsuario'(user){
         if (user.profile.data) {
