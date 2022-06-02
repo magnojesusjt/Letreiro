@@ -23,8 +23,8 @@ Meteor.startup(() => {
 
   ServiceConfiguration.configurations.insert({
       service: "facebook",
-      appId: '1314554739035559',
-      secret: '346c924a01db57e4296077ca5e552f8b'
+      appId: '426290636008452',
+      secret: '1d97b6405421d75b3362a628651f7fad'
   });
 
   Accounts.onCreateUser(function (options, user) {
