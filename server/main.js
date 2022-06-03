@@ -11,10 +11,10 @@ import './security'
 
 
 Meteor.startup(() => {
-  const email = 'sistemaagendaki@gmail.com'
+  const email = 'agendaki@outlook.com'
   const senha = '014547JT'
-  process.env.MAIL_URL = `smtp://${email}:${senha}@smtp.gmail.com:587`;
-  Accounts.emailTemplates.from = "sistemaagendaki@gmail.com";
+  process.env.MAIL_URL = `smtp://${email}:${senha}@smtp.office365.com:587`;
+  Accounts.emailTemplates.from = 'agendaki@outlook.com';
   Accounts.emailTemplates.siteName = "AGENDAKI";
 
   ServiceConfiguration.configurations.remove({

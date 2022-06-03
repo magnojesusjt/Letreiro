@@ -79,7 +79,7 @@ Meteor.methods({
 
         const dados = {
             to: email,
-            from: "sistemaagendaki@gmail.com",
+            from: "agendaki@outlook.com",
             subject: "AGENDAKI",
             html: `
             <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:650px;margin:0px auto;background: #779bf8;">
